@@ -1,8 +1,10 @@
 {
+  "id": "/",
   "name": "Device Benchmark",
   "short_name": "Benchmark",
   "description": "Measure how fast your device runs the web — CPU, GPU, and Memory.",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
@@ -14,7 +16,18 @@
       "type": "image/svg+xml"
     },
     {
+      "src": "./icons/icon-512.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
       "src": "./icons/icon-192.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./icons/icon-512.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "maskable"

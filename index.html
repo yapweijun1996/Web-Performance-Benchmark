@@ -24,6 +24,7 @@
   <!-- PWA -->
   <link rel="manifest" href="./manifest.json" />
   <meta name="theme-color" content="#ffffff" id="meta-theme" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Benchmark" />
@@ -40,8 +41,8 @@
       }
     })();
   </script>
-  <script type="module" crossorigin src="./assets/index-FhKboBpQ.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-BQAIUEw7.css">
+  <script type="module" crossorigin src="./assets/index-BK1GcZLJ.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-4JJ3SFvA.css">
 </head>
 <body>
 
@@ -97,6 +98,14 @@
             <button class="seg-btn" data-value="1">1x</button>
             <button class="seg-btn active" data-value="3">3x</button>
             <button class="seg-btn" data-value="5">5x</button>
+          </div>
+        </div>
+        <!-- WPB-074: GPU mode selector -->
+        <div class="control-group">
+          <span class="control-label">GPU</span>
+          <div class="seg" id="gpu-mode-control">
+            <button class="seg-btn active" data-value="score">Score</button>
+            <button class="seg-btn" data-value="stress">Stress</button>
           </div>
         </div>
       </div>
@@ -209,6 +218,8 @@
       <div class="score-hero">
         <p class="score-hero-label">Overall Score</p>
         <p id="overall-score" class="score-hero-value">—</p>
+        <!-- WPB-070: Cross-browser comparison disclaimer -->
+        <p class="score-hero-note" style="font-size:0.75rem;opacity:0.6;margin-top:0.25rem;">Scores are most comparable within the same browser. Cross-browser results may vary due to engine differences.</p>
       </div>
 
       <div class="results-grid">
