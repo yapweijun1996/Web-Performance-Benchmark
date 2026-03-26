@@ -1,0 +1,1 @@
+(function(){self.onmessage=function(e){let t=e.data.iterations||5e6,n=performance.now(),r=0;for(let e=0;e<t;e++)r+=Math.sqrt(e)*Math.sin(e)+Math.cos(e),r%=1e6,e>0&&e%5e5==0&&self.postMessage({type:`progress`,done:e,total:t});let i=performance.now()-n;self.postMessage({type:`done`,elapsed:i,result:r,iterations:t})}})();

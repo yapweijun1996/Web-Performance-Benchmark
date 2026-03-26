@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Device Benchmark — CPU, GPU & Memory Performance Test</title>
+  <meta name="description" content="Measure how fast your device runs the web. Test CPU single & multi-thread, GPU rendering, and memory throughput — all in your browser, zero install." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Device Benchmark" />
+  <meta property="og:description" content="Measure how fast your device runs the web — CPU, GPU & Memory benchmark in your browser." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="./icons/icon-192.svg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Device Benchmark" />
+  <meta name="twitter:description" content="Measure how fast your device runs the web — CPU, GPU & Memory benchmark in your browser." />
+
+  <!-- CSP -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' ws: wss:; worker-src 'self' blob:; child-src 'self' blob:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none';" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json" />
+  <meta name="theme-color" content="#ffffff" id="meta-theme" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Benchmark" />
+  <link rel="apple-touch-icon" href="./icons/icon-192.svg" />
+
+  <link rel="icon" href="data:," />
+
+  <!-- Inline critical: prevent flash of wrong theme -->
+  <script>
+    (function() {
+      try { var t = localStorage.getItem('bench-theme'); } catch(e) { var t = null; }
+      if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  <script type="module" crossorigin src="./assets/index-FhKboBpQ.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BQAIUEw7.css">
+</head>
+<body>
+
+  <!-- Top bar -->
+  <nav class="topbar">
+    <div class="topbar-inner">
+      <span class="topbar-brand">Benchmark</span>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle theme">
+        <!-- Sun icon (shown in dark mode) -->
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <!-- Moon icon (shown in light mode) -->
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">Performance</div>
+      <h1 class="hero-title">Device<br/>Benchmark.</h1>
+      <p class="hero-subtitle">See how fast your device actually runs the web.</p>
+    </div>
+  </section>
+
+  <!-- Device Info Chips -->
+  <section class="section">
+    <div class="container">
+      <div class="chip-row" id="chip-row">
+        <span class="chip skeleton" id="info-browser"><span class="skel-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
+        <span class="chip skeleton" id="info-platform"><span class="skel-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
+        <span class="chip skeleton" id="info-cores"><span class="skel-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
+        <span class="chip skeleton" id="info-memory"><span class="skel-text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Controls -->
+  <section class="section section-controls">
+    <div class="container">
+      <div class="controls">
+        <div class="control-group">
+          <span class="control-label">Mode</span>
+          <div class="seg" id="mode-control">
+            <button class="seg-btn" data-value="quick">Quick</button>
+            <button class="seg-btn active" data-value="standard">Standard</button>
+            <button class="seg-btn" data-value="stress">Stress</button>
+          </div>
+        </div>
+        <div class="control-group">
+          <span class="control-label">Runs</span>
+          <div class="seg" id="runs-control">
+            <button class="seg-btn" data-value="1">1x</button>
+            <button class="seg-btn active" data-value="3">3x</button>
+            <button class="seg-btn" data-value="5">5x</button>
+          </div>
+        </div>
+      </div>
+      <button id="btn-run" class="btn-hero" aria-label="Run benchmark test">
+        <span class="btn-label">Run Benchmark</span>
+        <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- Progress + Live Panel -->
+  <section class="section" id="progress-section" hidden>
+    <div class="container">
+      <!-- Progress bar -->
+      <div class="progress-block">
+        <div class="progress-top">
+          <span id="progress-status" class="progress-label">Initializing...</span>
+          <span id="progress-pct" class="progress-pct">0%</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progress-track">
+          <div id="progress-fill" class="progress-fill"></div>
+        </div>
+      </div>
+
+      <!-- Live visualisation cards with animated SVGs -->
+      <div class="live-grid" id="live-panel">
+
+        <!-- CPU Single -->
+        <div class="live-card" id="live-cpu">
+          <div class="live-header">
+            <div class="live-icon accent-blue">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="4" width="16" height="16" rx="2"/>
+                <rect class="svg-anim-pulse" x="9" y="9" width="6" height="6" fill="currentColor" opacity="0.3"/>
+                <line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/>
+                <line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/>
+                <line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/>
+                <line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>
+              </svg>
+            </div>
+            <span class="live-title">CPU</span>
+          </div>
+          <div class="live-bar-track"><div id="live-cpu-bar" class="live-bar bar-blue"></div></div>
+          <div id="live-cpu-text" class="live-stat">Idle</div>
+          <div class="section-progress"><div id="sp-cpu" class="section-progress-fill sp-blue"></div></div>
+        </div>
+
+        <!-- Multi-Core -->
+        <div class="live-card" id="live-multi">
+          <div class="live-header">
+            <div class="live-icon accent-purple">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2"/>
+                <line x1="1" y1="10" x2="23" y2="10"/>
+                <line x1="12" y1="4" x2="12" y2="20"/>
+                <circle class="svg-anim-blink" cx="6" cy="7" r="1" fill="currentColor" opacity="0"/>
+                <circle class="svg-anim-blink-delay" cx="18" cy="7" r="1" fill="currentColor" opacity="0"/>
+                <circle class="svg-anim-blink" cx="6" cy="15" r="1" fill="currentColor" opacity="0"/>
+                <circle class="svg-anim-blink-delay" cx="18" cy="15" r="1" fill="currentColor" opacity="0"/>
+              </svg>
+            </div>
+            <span class="live-title">Multi-Core</span>
+          </div>
+          <div id="live-worker-bars" class="worker-bars"></div>
+          <div id="live-multi-text" class="live-stat">Idle</div>
+          <div class="section-progress"><div id="sp-multi" class="section-progress-fill sp-purple"></div></div>
+        </div>
+
+        <!-- GPU -->
+        <div class="live-card" id="live-gpu">
+          <div class="live-header">
+            <div class="live-icon accent-pink">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon class="svg-anim-spin" points="12 2 2 7 12 12 22 7 12 2"/>
+                <polyline points="2 17 12 22 22 17"/>
+                <polyline points="2 12 12 17 22 12"/>
+              </svg>
+            </div>
+            <span class="live-title">GPU</span>
+          </div>
+          <div id="gpu-canvas-wrap" class="gpu-canvas-wrap"></div>
+          <div id="live-gpu-text" class="live-stat">Idle</div>
+          <div class="section-progress"><div id="sp-gpu" class="section-progress-fill sp-pink"></div></div>
+        </div>
+
+        <!-- Memory -->
+        <div class="live-card" id="live-mem">
+          <div class="live-header">
+            <div class="live-icon accent-green">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="6" width="20" height="12" rx="2"/>
+                <rect class="svg-anim-fill" x="4" y="8" width="0" height="8" rx="1" fill="currentColor" opacity="0.25"/>
+                <line x1="8" y1="6" x2="8" y2="18"/><line x1="12" y1="6" x2="12" y2="18"/>
+                <line x1="16" y1="6" x2="16" y2="18"/><line x1="20" y1="6" x2="20" y2="18"/>
+              </svg>
+            </div>
+            <span class="live-title">Memory</span>
+          </div>
+          <div class="live-bar-track"><div id="live-mem-bar" class="live-bar bar-green"></div></div>
+          <div id="live-mem-text" class="live-stat">Idle</div>
+          <div class="section-progress"><div id="sp-mem" class="section-progress-fill sp-green"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section class="section" id="results-section" hidden>
+    <div class="container">
+      <div class="score-hero">
+        <p class="score-hero-label">Overall Score</p>
+        <p id="overall-score" class="score-hero-value">—</p>
+      </div>
+
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="rc-icon accent-blue">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6" fill="currentColor" opacity="0.3"/>
+              <line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/>
+              <line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/>
+              <line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/>
+              <line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>
+            </svg>
+          </div>
+          <p class="rc-label">CPU Single</p>
+          <p id="score-cpu-single" class="rc-score">—</p>
+          <p id="detail-cpu-single" class="rc-detail"></p>
+        </div>
+        <div class="result-card">
+          <div class="rc-icon accent-purple">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2"/>
+              <line x1="1" y1="10" x2="23" y2="10"/><line x1="12" y1="4" x2="12" y2="20"/>
+              <circle cx="6" cy="7" r="1" fill="currentColor"/><circle cx="18" cy="7" r="1" fill="currentColor"/>
+              <circle cx="6" cy="15" r="1" fill="currentColor"/><circle cx="18" cy="15" r="1" fill="currentColor"/>
+            </svg>
+          </div>
+          <p class="rc-label">CPU Multi</p>
+          <p id="score-cpu-multi" class="rc-score">—</p>
+          <p id="detail-cpu-multi" class="rc-detail"></p>
+        </div>
+        <div class="result-card">
+          <div class="rc-icon accent-pink">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </div>
+          <p class="rc-label">GPU</p>
+          <p id="score-gpu" class="rc-score">—</p>
+          <p id="detail-gpu" class="rc-detail"></p>
+        </div>
+        <div class="result-card">
+          <div class="rc-icon accent-green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="6" width="20" height="12" rx="2"/>
+              <rect x="4" y="8" width="12" height="8" rx="1" fill="currentColor" opacity="0.25"/>
+              <line x1="8" y1="6" x2="8" y2="18"/><line x1="12" y1="6" x2="12" y2="18"/>
+              <line x1="16" y1="6" x2="16" y2="18"/><line x1="20" y1="6" x2="20" y2="18"/>
+            </svg>
+          </div>
+          <p class="rc-label">Memory</p>
+          <p id="score-ram" class="rc-score">—</p>
+          <p id="detail-ram" class="rc-detail"></p>
+        </div>
+      </div>
+
+      <!-- Radar chart -->
+      <canvas id="radar-chart" width="300" height="300" class="radar-canvas"></canvas>
+
+      <div class="results-actions">
+        <button id="btn-export" class="btn-secondary btn-export" disabled aria-label="Export benchmark results as JSON">Export JSON</button>
+        <button id="btn-share" class="btn-secondary" disabled aria-label="Copy or share benchmark results">
+          <span id="share-label">Share Results</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- History -->
+  <section class="section" id="history-section" hidden>
+    <div class="container">
+      <div class="history-header">
+        <h2 class="history-title">History</h2>
+        <button id="btn-clear-history" class="btn-text-danger" aria-label="Clear all benchmark history">Clear All</button>
+      </div>
+      <div id="history-list" class="history-list"></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Device Benchmark <span id="app-version"></span> &mdash; Zero dependencies. Runs entirely in your browser.</p>
+  </footer>
+
+</body>
+</html>
