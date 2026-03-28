@@ -1,94 +1,65 @@
 # Web Performance Benchmark
 
-A lightweight, zero-install browser-based benchmarking tool that measures real-world device performance across CPU, GPU, and memory — producing a single comparable score.
+A static, zero-install browser benchmark that measures CPU, GPU, and memory performance and reports a single comparable score.
+
+This repository is a shipped snapshot, not the original source tree. It contains the built app shell, hashed assets, icons, manifest, and service worker needed to run the benchmark as a standalone site.
 
 ## What It Measures
 
 | Component | Method | Key Metric |
-|-----------|--------|------------|
-| CPU (Single-thread) | Math-heavy loop on main thread | ops/sec, elapsed ms |
+|---|---|---|
+| CPU (Single-thread) | Math-heavy loop on the main thread | ops/sec, elapsed ms |
 | CPU (Multi-thread) | Web Workers distributed across cores | scaling efficiency % |
 | GPU | WebGL fragment shader stress test | avg FPS, frame stability % |
-| Memory | 64 MB ArrayBuffer read/write/copy | throughput MB/s |
+| Memory | ArrayBuffer read/write/copy benchmark | throughput MB/s |
 
-All scores are **normalized against a 2023 mid-range laptop baseline** (score 1000 = baseline). Higher is better.
+Scores are normalized against a baseline and are intended for comparisons on the same browser family and version.
 
-## Quick Start
+## Run It Locally
+
+Serve the repository as static files and open the local URL in a browser:
 
 ```bash
-npm install
-npm run dev
+python3 -m http.server 4173
 ```
 
-Open the local URL, click **Run Benchmark**, and view your scores.
+Then open `http://127.0.0.1:4173/`.
 
-## Project Structure
+Any static file server will work. No `npm install` or build step is required for this snapshot.
 
-```
-├── index.html                  # Entry point / UI layout
-├── src/
-│   ├── main.js                 # Orchestrator: device detection, benchmark flow, export
-│   ├── cpu.js                  # Single-thread + multi-thread (Web Workers) CPU tests
-│   ├── gpu.js                  # WebGL shader-based GPU benchmark
-│   ├── memory.js               # ArrayBuffer allocation & throughput tests
-│   ├── scoring.js              # Baseline normalization + weighted scoring
-│   ├── style.css               # Dark theme UI
-│   └── workers/
-│       └── cpu-worker.js       # Web Worker for parallel CPU computation
-├── sample-logic-study-only/    # Reference implementations for study
-│   ├── benchmark.js-main/      # JSPerf benchmark.js library
-│   ├── Speedometer-main/       # WebKit Speedometer browser benchmark
-│   └── stats.js-r17/           # Real-time FPS/memory stats monitor
-├── MVP.md                      # Full specification & roadmap
-└── docs/                       # Documentation
-    ├── architecture.md         # System design & execution flow
-    ├── sample-logic.md         # Educational code patterns to learn
-    └── api-reference.md        # Module API reference
+## Repository Layout
+
+```text
+├── index.html                  # App shell and UI markup
+├── sw.js                       # Service worker for offline caching
+├── manifest.json               # PWA metadata
+├── assets/
+│   ├── index-r4GnO-rm.js       # Bundled application logic
+│   ├── index-Zl2XYTO-.css      # Bundled styles
+│   └── cpu-worker-CXL0w28z.js  # Web Worker used by the CPU benchmark
+├── icons/
+│   ├── icon-192.svg
+│   └── icon-512.svg
+└── README.md
 ```
 
-## Scoring System
+## Notes
 
-```
-Component Score = (Baseline / Measured) * 1000
-Overall Score   = CPU Single (25%) + CPU Multi (35%) + GPU (25%) + RAM (15%)
-```
+- The service worker currently assumes a root deployment.
+- The manifest and app shell use relative asset paths.
+- The benchmark uses `performance.now()`, Web Workers, WebGL, `requestAnimationFrame`, and `ArrayBuffer`-based memory tests.
+- Results can be exported as JSON and shared through the browser share or clipboard APIs when available.
 
-A score of **2000** means 2x faster than baseline. A score of **500** means 2x slower.
+## Browser Compatibility
 
-## Export
+The benchmark is designed for modern Chromium, Firefox, and Safari builds. Some metrics may be unavailable or less comparable depending on GPU, browser engine, power mode, and background throttling.
 
-Results can be exported as timestamped JSON for archival and cross-device comparison.
+## Deployment
 
-## Browser APIs Used
-
-- `performance.now()` — microsecond-precision timing
-- `navigator.hardwareConcurrency` — CPU core detection
-- `navigator.deviceMemory` — device RAM estimation
-- `Web Workers` — parallel computation
-- `WebGL` — GPU rendering
-- `requestAnimationFrame` — frame-rate measurement
-- `ArrayBuffer` / `Float64Array` — memory bandwidth testing
-
-## Tech Stack
-
-- Vanilla JavaScript (ES6 modules)
-- HTML5 / CSS3
-- WebGL 1.0
-- Vite (build tool)
-
-## Cross-Device Testing Tips
-
-- Use the same browser family across devices
-- Disable power-saving / battery saver mode
-- Close background apps
-- Run 2-3 times and take the median
-
-## Roadmap
-
-- **Phase 2:** WebGPU support, median-based scoring
-- **Phase 3:** Online leaderboard, result sharing
-- **Phase 4:** WASM benchmarks, ML workloads
+- Host the files from the same origin as the app shell.
+- Keep `index.html`, `sw.js`, `manifest.json`, `assets/`, and `icons/` together.
+- If you deploy under a subpath instead of the origin root, update the manifest scope and service worker registration together.
 
 ## License
 
-See individual files in `sample-logic-study-only/` for their respective licenses.
+No explicit license file is included in this snapshot.
