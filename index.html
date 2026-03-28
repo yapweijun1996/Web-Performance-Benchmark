@@ -41,8 +41,8 @@
       }
     })();
   </script>
-  <script type="module" crossorigin src="./assets/index-BdN242tN.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-4JJ3SFvA.css">
+  <script type="module" crossorigin src="./assets/index-BR6Ek1aS.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BSdKfIir.css">
 </head>
 <body>
 
@@ -50,12 +50,15 @@
   <nav class="topbar">
     <div class="topbar-inner">
       <span class="topbar-brand">Benchmark</span>
-      <button id="theme-toggle" class="theme-btn" aria-label="Toggle theme">
-        <!-- Sun icon (shown in dark mode) -->
-        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <!-- Moon icon (shown in light mode) -->
-        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
+      <div class="topbar-actions">
+        <a href="#methodology-section" class="methodology-anchor topbar-anchor">Methodology</a>
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle theme">
+          <!-- Sun icon (shown in dark mode) -->
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <!-- Moon icon (shown in light mode) -->
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -280,6 +283,42 @@
       <!-- Radar chart -->
       <canvas id="radar-chart" width="300" height="300" class="radar-canvas"></canvas>
 
+      <div class="report-grid">
+        <section id="report-summary" class="report-card" aria-label="Benchmark summary">
+          <h3 class="report-card-title">Summary</h3>
+          <p id="report-summary-text" class="report-summary-text"></p>
+          <p id="report-comparability-text" class="report-inline-meta"></p>
+          <p id="report-basis-inline" class="report-inline-meta"></p>
+        </section>
+
+        <section id="report-basis" class="report-card" aria-label="Scoring basis">
+          <h3 class="report-card-title">Scoring Basis</h3>
+          <div class="report-card-body">
+            <p id="report-basis-included" class="report-inline-meta"></p>
+            <p id="report-basis-excluded" class="report-inline-meta"></p>
+            <p id="report-basis-overall" class="report-inline-meta"></p>
+          </div>
+        </section>
+
+        <section id="report-environment" class="report-card" aria-label="Benchmark environment">
+          <h3 class="report-card-title">Environment</h3>
+          <div class="report-card-body">
+            <p id="report-env-browser" class="report-inline-meta"></p>
+            <p id="report-env-baseline" class="report-inline-meta"></p>
+            <p id="report-env-engine" class="report-inline-meta"></p>
+            <p id="report-env-comparable" class="report-inline-meta"></p>
+            <p id="report-env-run" class="report-inline-meta"></p>
+            <p id="report-env-device" class="report-inline-meta"></p>
+            <p id="report-env-warning-summary" class="report-inline-meta"></p>
+          </div>
+        </section>
+
+        <section id="report-warnings" class="report-card" aria-label="Benchmark warnings" hidden>
+          <h3 class="report-card-title">Warnings</h3>
+          <ul id="report-warnings-list" class="report-list"></ul>
+        </section>
+      </div>
+
       <div class="results-actions">
         <button id="btn-export" class="btn-secondary btn-export" disabled aria-label="Export benchmark results as JSON">Export JSON</button>
         <button id="btn-share" class="btn-secondary" disabled aria-label="Copy or share benchmark results">
@@ -300,8 +339,20 @@
     </div>
   </section>
 
+  <section class="section methodology-section" id="methodology-section" aria-label="Benchmark methodology">
+    <div class="container">
+      <div class="methodology-header">
+        <p class="hero-badge methodology-badge">Methodology</p>
+        <h2 class="history-title">How This Benchmark Works</h2>
+        <p class="methodology-intro">Understand what is being measured, how scoring works, and which results are safe to compare.</p>
+      </div>
+      <div id="methodology-grid" class="methodology-grid"></div>
+    </div>
+  </section>
+
   <footer class="footer">
     <p>Device Benchmark <span id="app-version"></span> &mdash; Zero dependencies. Runs entirely in your browser.</p>
+    <p class="footer-links"><a href="#methodology-section" class="methodology-anchor">Methodology</a></p>
   </footer>
 
 </body>
