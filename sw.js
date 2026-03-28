@@ -1,11 +1,13 @@
-const CACHE_NAME = 'benchmark-v3';
+const CACHE_NAME = 'benchmark-v4';
+const APP_BASE = new URL(self.registration.scope).pathname;
+const ASSET_PREFIX = `${APP_BASE}assets/`;
 
 self.addEventListener('install', (e) => {
   // Cache the shell on install — Vite-built assets have hashed names,
   // so we only precache the HTML entry point and let runtime caching
   // handle the rest on first load
   e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(['/']))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll([APP_BASE]))
   );
   self.skipWaiting();
 });
@@ -23,7 +25,10 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   // Network-first for navigation, cache-first for assets (hashed = immutable)
   const url = new URL(e.request.url);
-  const isAsset = url.pathname.startsWith('/assets/');
+  if (url.origin !== self.location.origin) return;
+
+  const isAsset = url.pathname.startsWith(ASSET_PREFIX);
+  const isNavigation = e.request.mode === 'navigate';
 
   if (isAsset) {
     // Hashed assets are immutable — serve from cache, fallback to network
@@ -45,7 +50,10 @@ self.addEventListener('fetch', (e) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(e.request, clone));
           return res;
         })
-        .catch(() => caches.match(e.request))
+        .catch(() => {
+          if (isNavigation) return caches.match(APP_BASE);
+          return caches.match(e.request);
+        })
     );
   }
 });
