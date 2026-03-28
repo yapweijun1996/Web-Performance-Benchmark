@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Device Benchmark — CPU, GPU & Memory Performance Test</title>
-  <meta name="description" content="Measure how fast your device runs the web. Test CPU single & multi-thread, GPU rendering, and memory throughput — all in your browser, zero install." />
+  <title id="page-title">Device Benchmark - CPU, GPU & Memory Performance Test</title>
+  <meta id="meta-description" name="description" content="Measure how fast your device runs the web. Test CPU single & multi-thread, GPU rendering, and memory throughput - all in your browser, zero install." />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Device Benchmark" />
-  <meta property="og:description" content="Measure how fast your device runs the web — CPU, GPU & Memory benchmark in your browser." />
+  <meta id="meta-og-title" property="og:title" content="Device Benchmark" />
+  <meta id="meta-og-description" property="og:description" content="Measure how fast your device runs the web - CPU, GPU & Memory benchmark in your browser." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="./icons/icon-192.svg" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Device Benchmark" />
-  <meta name="twitter:description" content="Measure how fast your device runs the web — CPU, GPU & Memory benchmark in your browser." />
+  <meta id="meta-twitter-title" name="twitter:title" content="Device Benchmark" />
+  <meta id="meta-twitter-description" name="twitter:description" content="Measure how fast your device runs the web - CPU, GPU & Memory benchmark in your browser." />
 
   <!-- CSP -->
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' ws: wss:; worker-src 'self' blob:; child-src 'self' blob:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none';" />
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' ws: wss:; worker-src 'self' blob:; child-src 'self' blob:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none';" />
 
   <!-- PWA -->
   <link rel="manifest" href="./manifest.json" />
@@ -27,7 +27,7 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Benchmark" />
+  <meta id="meta-apple-title" name="apple-mobile-web-app-title" content="Benchmark" />
   <link rel="apple-touch-icon" href="./icons/icon-192.svg" />
 
   <link rel="icon" href="data:," />
@@ -41,17 +41,25 @@
       }
     })();
   </script>
-  <script type="module" crossorigin src="./assets/index-DcIwV0G2.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-Djf7JEOl.css">
+  <script type="module" crossorigin src="./assets/index-BTf1Fo3Y.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-Zl2XYTO-.css">
 </head>
 <body>
 
   <!-- Top bar -->
   <nav class="topbar">
     <div class="topbar-inner">
-      <span class="topbar-brand">Benchmark</span>
+      <span id="topbar-brand" class="topbar-brand">Benchmark</span>
       <div class="topbar-actions">
-        <a href="#methodology-section" class="methodology-anchor topbar-anchor">Methodology</a>
+        <label class="locale-picker">
+          <span id="locale-label" class="sr-only">Language</span>
+          <select id="locale-select" aria-labelledby="locale-label">
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+            <option value="ms">Bahasa Melayu</option>
+          </select>
+        </label>
+        <a id="topbar-methodology" href="#methodology-section" class="methodology-anchor topbar-anchor">Methodology</a>
         <button id="theme-toggle" class="theme-btn" aria-label="Toggle theme">
           <!-- Sun icon (shown in dark mode) -->
           <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -65,9 +73,9 @@
   <!-- Hero -->
   <section class="hero">
     <div class="hero-inner">
-      <div class="hero-badge">Performance</div>
-      <h1 class="hero-title">Device<br/>Benchmark.</h1>
-      <p class="hero-subtitle">See how fast your device actually runs the web.</p>
+      <div id="hero-badge" class="hero-badge">Performance</div>
+      <h1 id="hero-title" class="hero-title">Device<br/>Benchmark.</h1>
+      <p id="hero-subtitle" class="hero-subtitle">See how fast your device actually runs the web.</p>
     </div>
   </section>
 
@@ -88,15 +96,15 @@
     <div class="container">
       <div class="controls">
         <div class="control-group">
-          <span class="control-label">Mode</span>
+          <span id="control-mode-label" class="control-label">Mode</span>
           <div class="seg" id="mode-control">
-            <button class="seg-btn" data-value="quick">Quick</button>
-            <button class="seg-btn active" data-value="standard">Standard</button>
-            <button class="seg-btn" data-value="stress">Stress</button>
+            <button id="mode-quick" class="seg-btn" data-value="quick">Quick</button>
+            <button id="mode-standard" class="seg-btn active" data-value="standard">Standard</button>
+            <button id="mode-stress" class="seg-btn" data-value="stress">Stress</button>
           </div>
         </div>
         <div class="control-group">
-          <span class="control-label">Runs</span>
+          <span id="control-runs-label" class="control-label">Runs</span>
           <div class="seg" id="runs-control">
             <button class="seg-btn" data-value="1">1x</button>
             <button class="seg-btn active" data-value="3">3x</button>
@@ -104,11 +112,11 @@
           </div>
         </div>
         <!-- WPB-074: GPU mode selector -->
-        <div class="control-group">
-          <span class="control-label">GPU</span>
+        <div class="control-group" hidden>
+          <span id="control-gpu-label" class="control-label">GPU</span>
           <div class="seg" id="gpu-mode-control">
-            <button class="seg-btn active" data-value="score">Score</button>
-            <button class="seg-btn" data-value="stress">Stress</button>
+            <button id="gpu-score" class="seg-btn active" data-value="score">Score</button>
+            <button id="gpu-stress" class="seg-btn" data-value="stress">Stress</button>
           </div>
         </div>
       </div>
@@ -149,7 +157,7 @@
                 <line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>
               </svg>
             </div>
-            <span class="live-title">CPU</span>
+            <span id="live-cpu-title" class="live-title">CPU</span>
           </div>
           <div class="live-bar-track"><div id="live-cpu-bar" class="live-bar bar-blue"></div></div>
           <div id="live-cpu-text" class="live-stat">Idle</div>
@@ -170,7 +178,7 @@
                 <circle class="svg-anim-blink-delay" cx="18" cy="15" r="1" fill="currentColor" opacity="0"/>
               </svg>
             </div>
-            <span class="live-title">Multi-Core</span>
+            <span id="live-multi-title" class="live-title">Multi-Core</span>
           </div>
           <div id="live-worker-bars" class="worker-bars"></div>
           <div id="live-multi-text" class="live-stat">Idle</div>
@@ -187,7 +195,7 @@
                 <polyline points="2 12 12 17 22 12"/>
               </svg>
             </div>
-            <span class="live-title">GPU</span>
+            <span id="live-gpu-title" class="live-title">GPU</span>
           </div>
           <div id="gpu-canvas-wrap" class="gpu-canvas-wrap"></div>
           <div id="live-gpu-text" class="live-stat">Idle</div>
@@ -205,7 +213,7 @@
                 <line x1="16" y1="6" x2="16" y2="18"/><line x1="20" y1="6" x2="20" y2="18"/>
               </svg>
             </div>
-            <span class="live-title">Memory</span>
+            <span id="live-mem-title" class="live-title">Memory</span>
           </div>
           <div class="live-bar-track"><div id="live-mem-bar" class="live-bar bar-green"></div></div>
           <div id="live-mem-text" class="live-stat">Idle</div>
@@ -219,10 +227,10 @@
   <section class="section" id="results-section" hidden>
     <div class="container">
       <div class="score-hero">
-        <p class="score-hero-label">Overall Score</p>
+        <p id="overall-hero-label" class="score-hero-label">Overall Score</p>
         <p id="overall-score" class="score-hero-value">—</p>
         <!-- WPB-070: Cross-browser comparison disclaimer -->
-        <p class="score-hero-note" style="font-size:0.75rem;opacity:0.6;margin-top:0.25rem;">Scores are most comparable within the same browser. Cross-browser results may vary due to engine differences.</p>
+        <p id="overall-hero-note" class="score-hero-note" style="font-size:0.75rem;opacity:0.6;margin-top:0.25rem;">Scores are most comparable within the same browser. Cross-browser results may vary due to engine differences.</p>
       </div>
 
       <div class="results-grid">
@@ -236,7 +244,7 @@
               <line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>
             </svg>
           </div>
-          <p class="rc-label">CPU Single</p>
+          <p id="label-cpu-single" class="rc-label">CPU Single</p>
           <p id="score-cpu-single" class="rc-score">—</p>
           <p id="detail-cpu-single" class="rc-detail"></p>
         </div>
@@ -249,7 +257,7 @@
               <circle cx="6" cy="15" r="1" fill="currentColor"/><circle cx="18" cy="15" r="1" fill="currentColor"/>
             </svg>
           </div>
-          <p class="rc-label">CPU Multi</p>
+          <p id="label-cpu-multi" class="rc-label">CPU Multi</p>
           <p id="score-cpu-multi" class="rc-score">—</p>
           <p id="detail-cpu-multi" class="rc-detail"></p>
         </div>
@@ -261,7 +269,7 @@
               <polyline points="2 12 12 17 22 12"/>
             </svg>
           </div>
-          <p class="rc-label">GPU</p>
+          <p id="label-gpu" class="rc-label">GPU</p>
           <p id="score-gpu" class="rc-score">—</p>
           <p id="detail-gpu" class="rc-detail"></p>
         </div>
@@ -274,7 +282,7 @@
               <line x1="16" y1="6" x2="16" y2="18"/><line x1="20" y1="6" x2="20" y2="18"/>
             </svg>
           </div>
-          <p class="rc-label">Memory</p>
+          <p id="label-ram" class="rc-label">Memory</p>
           <p id="score-ram" class="rc-score">—</p>
           <p id="detail-ram" class="rc-detail"></p>
         </div>
@@ -286,10 +294,33 @@
               <path d="M10 10h4v4h-4z" fill="currentColor" opacity="0.25"/>
             </svg>
           </div>
-          <p class="rc-label">WebGPU (Experimental)</p>
+          <p id="label-webgpu" class="rc-label">WebGPU (Experimental)</p>
           <p id="score-webgpu" class="rc-score">—</p>
           <p id="detail-webgpu" class="rc-detail"></p>
           <p id="detail-webgpu-meta" class="rc-detail"></p>
+        </div>
+        <div id="card-cpu-stress" class="result-card" hidden>
+          <div class="rc-icon accent-blue">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3v18"/><path d="M5 12h14"/><path d="M7 7l10 10"/><path d="M17 7L7 17"/>
+            </svg>
+          </div>
+          <p id="label-cpu-stress" class="rc-label">CPU Stress</p>
+          <p id="score-cpu-stress" class="rc-score">—</p>
+          <p id="detail-cpu-stress" class="rc-detail"></p>
+          <p id="detail-cpu-stress-meta" class="rc-detail"></p>
+        </div>
+        <div id="card-ram-stress" class="result-card" hidden>
+          <div class="rc-icon accent-green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="6" width="18" height="12" rx="2"/>
+              <path d="M7 10h10"/><path d="M7 14h10"/>
+            </svg>
+          </div>
+          <p id="label-ram-stress" class="rc-label">RAM Stress</p>
+          <p id="score-ram-stress" class="rc-score">—</p>
+          <p id="detail-ram-stress" class="rc-detail"></p>
+          <p id="detail-ram-stress-meta" class="rc-detail"></p>
         </div>
         <div class="result-card">
           <div class="rc-icon accent-blue">
@@ -298,7 +329,7 @@
               <path d="M9 8h6M9 12h6M9 16h4"/>
             </svg>
           </div>
-          <p class="rc-label">WASM (Experimental)</p>
+          <p id="label-wasm" class="rc-label">WASM (Experimental)</p>
           <p id="score-wasm" class="rc-score">—</p>
           <p id="detail-wasm" class="rc-detail"></p>
           <p id="detail-wasm-meta" class="rc-detail"></p>
@@ -310,7 +341,7 @@
 
       <div class="report-grid">
         <section id="report-summary" class="report-card" aria-label="Benchmark summary">
-          <h3 class="report-card-title">Summary</h3>
+          <h3 id="report-summary-title" class="report-card-title">Summary</h3>
           <p id="report-summary-text" class="report-summary-text"></p>
           <p id="report-comparability-text" class="report-inline-meta"></p>
           <p id="report-comparability-summary" class="report-inline-meta"></p>
@@ -319,7 +350,7 @@
         </section>
 
         <section id="report-repeatability" class="report-card" aria-label="Run stability">
-          <h3 class="report-card-title">Run Stability</h3>
+          <h3 id="report-repeatability-title" class="report-card-title">Run Stability</h3>
           <div class="report-card-body">
             <p id="report-repeatability-level" class="report-inline-meta"></p>
             <p id="report-repeatability-runs" class="report-inline-meta"></p>
@@ -329,7 +360,7 @@
         </section>
 
         <section id="report-basis" class="report-card" aria-label="Scoring basis">
-          <h3 class="report-card-title">Scoring Basis</h3>
+          <h3 id="report-basis-title" class="report-card-title">Scoring Basis</h3>
           <div class="report-card-body">
             <p id="report-basis-included" class="report-inline-meta"></p>
             <p id="report-basis-excluded" class="report-inline-meta"></p>
@@ -338,7 +369,7 @@
         </section>
 
         <section id="report-environment" class="report-card" aria-label="Benchmark environment">
-          <h3 class="report-card-title">Environment</h3>
+          <h3 id="report-environment-title" class="report-card-title">Environment</h3>
           <div class="report-card-body">
             <p id="report-env-browser" class="report-inline-meta"></p>
             <p id="report-env-baseline" class="report-inline-meta"></p>
@@ -351,7 +382,7 @@
         </section>
 
         <section id="report-warnings" class="report-card" aria-label="Benchmark warnings" hidden>
-          <h3 class="report-card-title">Warnings</h3>
+          <h3 id="report-warnings-title" class="report-card-title">Warnings</h3>
           <ul id="report-warnings-list" class="report-list"></ul>
         </section>
       </div>
@@ -369,7 +400,7 @@
   <section class="section" id="history-section" hidden>
     <div class="container">
       <div class="history-header">
-        <h2 class="history-title">History</h2>
+        <h2 id="history-title" class="history-title">History</h2>
         <button id="btn-clear-history" class="btn-text-danger" aria-label="Clear all benchmark history">Clear All</button>
       </div>
       <div id="history-list" class="history-list"></div>
@@ -379,18 +410,25 @@
   <section class="section methodology-section" id="methodology-section" aria-label="Benchmark methodology">
     <div class="container">
       <div class="methodology-header">
-        <p class="hero-badge methodology-badge">Methodology</p>
-        <h2 class="history-title">How This Benchmark Works</h2>
-        <p class="methodology-intro">Understand what is being measured, how scoring works, and which results are safe to compare.</p>
+        <p id="methodology-badge" class="hero-badge methodology-badge">Methodology</p>
+        <h2 id="methodology-title" class="history-title">How This Benchmark Works</h2>
+        <p id="methodology-intro" class="methodology-intro">Understand what is being measured, how scoring works, and which results are safe to compare.</p>
       </div>
       <div id="methodology-grid" class="methodology-grid"></div>
     </div>
   </section>
 
   <footer class="footer">
-    <p>Device Benchmark <span id="app-version"></span> &mdash; Zero dependencies. Runs entirely in your browser.</p>
-    <p class="footer-links"><a href="#methodology-section" class="methodology-anchor">Methodology</a></p>
+    <p id="footer-text">Device Benchmark <span id="app-version"></span> &mdash; Zero dependencies. Runs entirely in your browser.</p>
+    <p class="footer-links"><a id="footer-methodology" href="#methodology-section" class="methodology-anchor">Methodology</a></p>
   </footer>
+
+  <button id="scroll-to-top" class="scroll-top-btn" type="button" aria-label="Scroll to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5"/>
+      <path d="m5 12 7-7 7 7"/>
+    </svg>
+  </button>
 
 </body>
 </html>
